@@ -1,0 +1,37 @@
+#define MAX 4000
+struct BinNode
+{
+	int data;
+	BinNode*parent; BinNode*lc; BinNode*rc;
+	int height;
+	BinNode() :parent(NULL), lc(NULL), rc(NULL), height(0) { }
+	BinNode(int e, BinNode*p = NULL, BinNode*lc = NULL, BinNode*rc = NULL, int h = 0) :data(e), parent(p), lc(lc), rc(rc), height(h) { }
+};
+
+int travPre[MAX], travPost[MAX];
+
+BinNode* properrebuild(int travPre_lo, int travPre_hi, int travPost_lo, int travPost_hi)
+{
+	BinNode*root_of_prsent = new BinNode;
+	root_of_prsent->data = travPre[travPre_lo];
+	if (travPost_hi == travPost_hi) return root_of_prsent;
+	int position, num_left_child;
+	for (int i = travPost_lo; i <= travPost_hi; i++)
+	{
+		if (travPost[i] == travPre[travPost_lo + 1])
+		{
+			position = i;
+			break;
+		}
+	}
+	num_left_child = position - travPost_lo + 1;
+	root_of_prsent->lc = properrebuild(travPre_lo + 1, travPre_lo + num_left_child, travPost_lo, position);
+	root_of_prsent->rc = properrebuild(travPre_lo + num_left_child + 1, travPre_hi, travPost_lo + 1, travPost_hi - 1);
+	return root_of_prsent;  //返回当前根节点
+}
+
+
+int main()
+{
+    return 0;
+}
