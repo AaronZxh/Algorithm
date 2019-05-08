@@ -1,3 +1,8 @@
+}
+/*该函数的思想为：根据真二叉树的先后序遍历规律：先序遍历的首元素为二叉树根节点，次元素二叉树左子树根节点，
+以此在后序遍历中找到当前根节点的左孩子及左子树的个数，利用递归的方法，分而治之，将给定的先序遍历序列和后
+续遍历进行划分。函数每次的返回值均为当前的根节点*/
+
 #define MAX 4000
 struct BinNode      //定义一个二叉树节点类，包括其左右孩子
 {
@@ -28,7 +33,3 @@ BinNode* properrebuild(int travPre_lo, int travPre_hi, int travPost_lo, int trav
 	root_of_prsent->lc = properrebuild(travPre_lo + 1, travPre_lo + num_left_child, travPost_lo, position);        //使用递归在左子树中寻找当前节点的左孩子
 	root_of_prsent->rc = properrebuild(travPre_lo + num_left_child + 1, travPre_hi, travPost_lo + 1, travPost_hi - 1);//使用递归在右子树中寻找当前节点的右孩子
 	return root_of_prsent;  //返回当前根节点  
-}
-/*该函数的思想为：根据真二叉树的先后序遍历规律：先序遍历的首元素为二叉树根节点，次元素二叉树左子树根节点，
-以此在后序遍历中找到当前根节点的左孩子及左子树的个数，利用递归的方法，分而治之，将给定的先序遍历序列和后
-续遍历进行划分。函数每次的返回值均为当前的根节点*/
