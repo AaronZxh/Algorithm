@@ -13,7 +13,7 @@ struct BinNode      //定义一个二叉树节点类，包括其左右孩子
 	BinNode(int e, BinNode*p = NULL, BinNode*lc = NULL, BinNode*rc = NULL, int h = 0) :data(e), parent(p), lc(lc), rc(rc), height(h) { }
 };
 
-int travPre[MAX], travPost[MAX]; //定义两个数组来分别保存真二叉树的先序遍历和后续遍历
+int travPre[MAX], travPost[MAX]; //定义两个数组来分别保存给定的真二叉树先序遍历和后续遍历
 
 BinNode* properrebuild(int travPre_lo, int travPre_hi, int travPost_lo, int travPost_hi)//定义递归函数
 {
