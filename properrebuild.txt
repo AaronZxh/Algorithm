@@ -1,5 +1,5 @@
 #define MAX 4000
-struct BinNode
+struct BinNode      //定义一个二叉树节点类，包括其左右孩子
 {
 	int data;
 	BinNode*parent; BinNode*lc; BinNode*rc;
@@ -8,15 +8,15 @@ struct BinNode
 	BinNode(int e, BinNode*p = NULL, BinNode*lc = NULL, BinNode*rc = NULL, int h = 0) :data(e), parent(p), lc(lc), rc(rc), height(h) { }
 };
 
-int travPre[MAX], travPost[MAX];
+int travPre[MAX], travPost[MAX]; //定义两个数组来分别保存真二叉树的先序遍历和后续遍历
 
-BinNode* properrebuild(int travPre_lo, int travPre_hi, int travPost_lo, int travPost_hi)
+BinNode* properrebuild(int travPre_lo, int travPre_hi, int travPost_lo, int travPost_hi)//定义递归函数
 {
-	BinNode*root_of_prsent = new BinNode;
-	root_of_prsent->data = travPre[travPre_lo];
-	if (travPost_hi == travPost_hi) return root_of_prsent;
-	int position, num_left_child;
-	for (int i = travPost_lo; i <= travPost_hi; i++)
+	BinNode*root_of_prsent = new BinNode;      //创建一个新的节点，并以此节点为当前的根节点
+	root_of_prsent->data = travPre[travPre_lo];        //先序遍历的首位元素是根节点的数据
+	if (travPost_hi == travPost_hi) return root_of_prsent;   //设置递归基，如果后序遍历中长度为0，返回当前节点
+	int position, num_left_child;       //当前节点在后续遍历中的位置，当前节点左子树的节点数
+	for (int i = travPost_lo; i <= travPost_hi; i++)          //在后续遍历中找到左子树根节点位置，左子树根节点为先序遍历中根节点后一个元素
 	{
 		if (travPost[i] == travPre[travPost_lo + 1])
 		{
@@ -24,14 +24,11 @@ BinNode* properrebuild(int travPre_lo, int travPre_hi, int travPost_lo, int trav
 			break;
 		}
 	}
-	num_left_child = position - travPost_lo + 1;
-	root_of_prsent->lc = properrebuild(travPre_lo + 1, travPre_lo + num_left_child, travPost_lo, position);
-	root_of_prsent->rc = properrebuild(travPre_lo + num_left_child + 1, travPre_hi, travPost_lo + 1, travPost_hi - 1);
-	return root_of_prsent;  //返回当前根节点
+	num_left_child = position - travPost_lo + 1;                    //计算左子树的节点数
+	root_of_prsent->lc = properrebuild(travPre_lo + 1, travPre_lo + num_left_child, travPost_lo, position);        //使用递归在左子树中寻找当前节点的左孩子
+	root_of_prsent->rc = properrebuild(travPre_lo + num_left_child + 1, travPre_hi, travPost_lo + 1, travPost_hi - 1);//使用递归在右子树中寻找当前节点的右孩子
+	return root_of_prsent;  //返回当前根节点  
 }
-
-
-int main()
-{
-    return 0;
-}
+/*该函数的思想为：根据真二叉树的先后序遍历规律：先序遍历的首元素为二叉树根节点，次元素二叉树左子树根节点，
+以此在后序遍历中找到当前根节点的左孩子及左子树的个数，利用递归的方法，分而治之，将给定的先序遍历序列和后
+续遍历进行划分。函数每次的返回值均为当前的根节点*/
